@@ -6,6 +6,8 @@ You can make it your own by editing one configuration file:
 
 - `src/data/siteConfig.js`
 
+> ⚠️ **Important for static-hosted deployments (GitHub Pages / serving this repo directly):** after changing `src/data/siteConfig.js`, rebuild the app and commit the updated deploy bundle (`index.html`, `asset-manifest.json`, and `static/`) so your changes appear on the live site.
+
 ---
 
 ## ✅ What you can customize
@@ -49,6 +51,7 @@ That means anyone can:
 
 - duplicate the project,
 - replace content in one file,
+- rebuild the bundle,
 - and quickly create their own portfolio.
 
 ---
@@ -57,12 +60,20 @@ That means anyone can:
 
 ```bash
 npm install
-npm run dev
+npm run build
 ```
 
-If your environment uses CRA scripts, use:
+Then copy the generated build output into the deploy root (or publish the `build/` directory), including:
+
+- `index.html`
+- `asset-manifest.json`
+- `static/`
+
+If your environment supports a dev server, you can also run:
 
 ```bash
+npm run dev
+# or
 npm start
 ```
 
