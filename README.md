@@ -1,74 +1,86 @@
-# 🎨 3D Portfolio Website – Aditya More
+# 🎨 Reusable 3D Portfolio Website
 
-A modern, interactive 3D portfolio built using **React.js** and **Tailwind CSS**, showcasing 3D artworks and animations created by Aditya More.
+This project is now structured as a **reusable portfolio template**.
 
-## 🖼️ Live Demo
-Check out the live site here: [adityaa-more.github.io/3d-portfolio](https://adityaa-more.github.io/3d-portfolio)
+You can make it your own by editing one configuration file:
 
-## 🖼️ Preview
-![preview](https://i.postimg.cc/tCXSGxHt/screencapture-adityaa-more-github-io-3d-portfolio-2025-05-27-23-30-34.png)
+- `src/data/siteConfig.js`
 
----
-
-## 🚀 Features
-
-- 🎞️ **Interactive 3D Gallery**  
-  Visually appealing grid layout of 3D renders with smooth hover effects and responsive scaling.
-
-- 🌐 **Responsive Design**  
-  Fully optimized for both desktop and mobile viewing using Tailwind's responsive utilities.
-
-- 💅 **Minimal Dark UI**  
-  Clean, modern interface that puts the spotlight on the visuals with carefully chosen typography and spacing.
-
-- 🧭 **Navigation Bar**  
-  Includes branding, project title, and a button linking to the Software Development Portfolio.
-
-- 🔗 **Footer with Social Icons**  
-  Links to LinkedIn, GitHub, Email, and Instagram, along with a custom logo and creator credits.
+> ⚠️ **Important for static-hosted deployments (GitHub Pages / serving this repo directly):** after changing `src/data/siteConfig.js`, rebuild the app and commit the updated deploy bundle (`index.html`, `asset-manifest.json`, and `static/`) so your changes appear on the live site.
 
 ---
 
-## 🛠️ Tech Stack
+## ✅ What you can customize
 
-- **React.js** – Component-based UI architecture  
-- **Tailwind CSS** – Utility-first styling for rapid UI development  
-- **Framer Motion** (optional) – Smooth animations and transitions  
-- **GitHub Pages** – Hosting and deployment
+Inside `siteConfig.js`, update:
 
----
+- **Owner data** (name, role, tagline)
+- **Gallery cards** (image/GIF URL, title, project link)
+- **Style tokens** using Tailwind utility classes
 
-## 📁 Folder Structure
-
-
----
-
-## 📦 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/adityaa-more/3d-portfolio.git
-
-# Navigate into the project directory
-cd 3d-portfolio
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
+```js
+export const siteConfig = {
+  owner: {
+    name: "Your Name",
+    role: "3D Artist & Creative Developer",
+    tagline: "Replace this text with your short introduction.",
+  },
+  style: {
+    pageBackground: "bg-gray-50",
+    pageText: "text-black",
+    cardBackground: "bg-neutral-700",
+    cardOverlay: "bg-slate-600/50",
+    cardTitle: "text-white",
+  },
+  gallery: [
+    { url: "https://...", title: "Project 1", link: "https://..." },
+  ],
+};
 ```
 
-📬 Contact
-Feel free to connect:
+---
 
-LinkedIn
+## 🧩 Reusability behavior
 
-GitHub
+`VideoGallery` reads config from:
 
-Email: [Your Email Here]
+1. `props.config` (if you pass custom data at runtime), otherwise
+2. `siteConfig` (default local config file)
 
-Instagram
+That means anyone can:
 
-© 2024 Aditya More
-Made with ❤️ using React and Tailwind.
+- duplicate the project,
+- replace content in one file,
+- rebuild the bundle,
+- and quickly create their own portfolio.
+
+---
+
+## 🚀 Getting Started
+
+```bash
+npm install
+npm run build
+```
+
+Then copy the generated build output into the deploy root (or publish the `build/` directory), including:
+
+- `index.html`
+- `asset-manifest.json`
+- `static/`
+
+If your environment supports a dev server, you can also run:
+
+```bash
+npm run dev
+# or
+npm start
+```
+
+---
+
+## 📁 Key Files
+
+- `src/components/VideoGallery.js` → reusable gallery UI
+- `src/data/siteConfig.js` → data + theme configuration
+
