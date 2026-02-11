@@ -1,79 +1,58 @@
 import React, { Component } from "react";
 import folderIcon from "../assests/google-drive-folder-symbol.png";
+import { siteConfig } from "../data/siteConfig";
 
-const cardData = [
-  {
-    url: "https://media.giphy.com/media/RdF3p3G02lGYQwDdGB/giphy.gif",
-    title: "Chair",
-    link: "#!",
-  },
-  {
-    url: "https://i.imghippo.com/files/FecnN1722311956.png",
-    title: "Tin Can",
-    link: "#!",
-  },
-  {
-    url: "https://i.imghippo.com/files/gq1cI1722312056.png",
-    title: "Winter House",
-    link: "#!",
-  },
-  {
-    url: "https://i.imghippo.com/files/ZuRbf1722312098.png",
-    title: "Isometric Bedroom",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/ub6Q8emEHMljkPnYiq/giphy.gif",
-    title: "Donut",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/eoSvwF0Q4ARB2AcizL/giphy.gif",
-    title: "Tea Cup",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/trKpdh3exkpIG6LbQI/giphy.gif",
-    title: "Walking Creature",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/s7GEVK5w3DC65e1iLi/giphy.gif",
-    title: "Hologram",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/vTWscfR1RywKExDEDF/giphy.gif",
-    title: "Sword",
-    link: "#!",
-  },
-  {
-    url: "https://media.giphy.com/media/iey4ZjjVTxv7Ek43nn/giphy.gif",
-    title: "Sword Animation",
-    link: "#!",
-  },
-];
+const defaultStyle = {
+  pageBackground: "bg-gray-50",
+  pageText: "text-black",
+  cardBackground: "bg-neutral-700",
+  cardOverlay: "bg-slate-600/50",
+  cardTitle: "text-white",
+};
 
 export default class VideoGallery extends Component {
   render() {
+    const config = this.props.config || siteConfig;
+    const { owner, gallery = [], style = {} } = config;
+    const resolvedStyle = { ...defaultStyle, ...style };
+
     return (
-      <div class="container flex flex-row flex-wrap justify-center px-16 pt-24 bg-gray-50 text-black">
-        
-        {cardData.map((card, index)=>(
+      <section
+        className={`container flex flex-col items-center px-6 pb-10 pt-20 sm:px-10 md:px-16 ${resolvedStyle.pageBackground} ${resolvedStyle.pageText}`}
+      >
+        <header className="mb-10 w-full max-w-5xl text-center md:text-left">
+          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{owner?.name}</h1>
+          <p className="mt-1 text-base opacity-80 md:text-lg">{owner?.role}</p>
+          <p className="mt-3 max-w-2xl text-sm opacity-75 md:text-base">{owner?.tagline}</p>
+        </header>
 
-          <div key={index} class="flex items-center relative mb-16 mr-12 rounded-2xl w-[340px] h-[340px] overflow-hidden bg-neutral-700 transition duration-300 ease-in-out hover:shadow-lg dark:hover:shadow-black/30">
-          <img src={card.url} alt={card.title} className="object-contain w-full h-full"/>
-          <a href={card.link}>
-            <div class="flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-slate-600/50 bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
-              <img src={folderIcon} alt="" class=" w-[50px] h-[50px]" />
-              <p>{card.title}</p>
-            </div>
-          </a>
-          </div>
+        <div className="flex w-full max-w-6xl flex-row flex-wrap justify-center gap-10 md:justify-start">
+          {gallery.map((card, index) => (
+            <article
+              key={`${card.title}-${index}`}
+              className={`group relative flex h-[320px] w-[320px] items-center overflow-hidden rounded-2xl transition duration-300 ease-in-out hover:shadow-lg dark:hover:shadow-black/30 ${resolvedStyle.cardBackground}`}
+            >
+              <img src={card.url} alt={card.title} className="h-full w-full object-contain" />
 
-        ))}
-        
-      </div>
+              <a
+                href={card.link}
+                target={card.link?.startsWith("http") ? "_blank" : "_self"}
+                rel={card.link?.startsWith("http") ? "noreferrer" : undefined}
+                className="absolute inset-0"
+              >
+                <div
+                  className={`absolute inset-0 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out group-hover:opacity-100 ${resolvedStyle.cardOverlay}`}
+                >
+                  <img src={folderIcon} alt="Open project" className="h-[50px] w-[50px]" />
+                  <p className={`mt-2 text-center text-lg font-semibold ${resolvedStyle.cardTitle}`}>
+                    {card.title}
+                  </p>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
     );
   }
 }
